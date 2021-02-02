@@ -25,5 +25,6 @@
         'load_more' => 'Voir plus',
         'photo_by' => 'Photo par',
         'on' => 'sur',
+        'input_placeholder' => 'Rechercher sur Unsplash.com'
     ]
 ];

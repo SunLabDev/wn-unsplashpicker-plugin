@@ -25,5 +25,6 @@
         'load_more' => 'Load more',
         'photo_by' => 'Photo by',
         'on' => 'on',
+        'input_placeholder' => 'Search on Unsplash.com'
     ]
 ];
