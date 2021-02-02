@@ -2,7 +2,7 @@
 This plugin allows you to upload image directly through the Unsplash API.
 
 #### Requirements
-To use this plugin, you'll need to create an account
+To use this plugin, you'll need to create an account on [Unsplash.com](https://unsplash.com/)
 and fill your credentials on the backend settings
 
 #### How to use
@@ -19,9 +19,3 @@ UnsplashPicker is an extension of FileUpload widget, you can use the same option
                 imageWidth: 260
                 maxFilesize: 12
                 attachOnUpload: true
-
-#### Known issues
-When attached with an `attachOne` relationship, you can visually attach more than one file,
-this is only a visual bug that will be fixed soon.
-
-On form submit, only the last attached file is saved.

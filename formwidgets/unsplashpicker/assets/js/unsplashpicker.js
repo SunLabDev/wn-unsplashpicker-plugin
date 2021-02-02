@@ -11,6 +11,7 @@
         this.searchInput = $(element).find('.unsplash-search').first()
         this.resultsDiv = $(element).find('.field-fileupload').first()
         this.unsplashPreviewTemplate = $(this.options.unsplashPreviewTemplate)
+        this.DropZone = $(`#${this.$el.data('uploaderId')}`)[0].dropzone
 
         $.oc.foundation.controlUtils.markDisposable(element)
         Base.call(this)
@@ -98,31 +99,27 @@
 
     UnsplashPicker.prototype.addToFileUploader = function (event) {
         var currentTarget = $(event.currentTarget),
-            dropzoneId = this.$el.data('uploaderId'),
-            DropZone = $(`#${dropzoneId}`)[0].dropzone,
             imageId = currentTarget.data('imageId'),
             file = {
                 name: `${this.searchInput.val()}-${imageId}`,
                 size: 'unknown',
         }
 
-        console.log(currentTarget)
-
-        DropZone.options.addedfile.call(DropZone, file)
-        setTimeout(function () {
-            file.previewElement = $(`#${dropzoneId}`).find('.upload-object.dz-preview.dz-image-preview').last()
-        }, 50)
-        DropZone.options.thumbnail.call(DropZone, file, currentTarget.data('imageThumb'))
+        this.DropZone.options.addedfile.call(this.DropZone, file)
+        setTimeout(() =>
+            file.previewElement = $(`#${this.$el.data('uploaderId')}`).find('.upload-object.dz-preview.dz-image-preview').last()
+        , 50)
+        this.DropZone.options.thumbnail.call(this.DropZone, file, currentTarget.data('imageThumb'))
 
         this.saveOnServer({
             id: imageId,
             url: currentTarget.data('imageUrl'),
             title: currentTarget.data('imageTitle'),
             description: $(`#preview-${imageId} .author-text`).first().html(),
-        }, file, DropZone)
+        }, file)
     }
 
-    UnsplashPicker.prototype.saveOnServer = function (imageData, file, DropZone) {
+    UnsplashPicker.prototype.saveOnServer = function (imageData, file) {
         $.request('onAddUnsplashImage', {
             data: {
                 image_url: imageData.url,
@@ -132,7 +129,7 @@
                 session_key: $('input[name=_session_key]').val()
             },
             success: response => {
-                DropZone.options.success.call(file, response)
+                this.DropZone.options.success.call(file, response)
                 var $preview = $(file.previewElement)
 
                 $preview.addClass('is-success')
@@ -143,6 +140,12 @@
                     $preview.data('path', response.path)
                     $('.upload-remove-button', $preview).data('request-data', {file_id: response.id})
                     $('.image img', $preview).attr('src', response.thumb)
+
+					
+                    if ($(`#${this.$el.data('uploaderId')}`).hasClass('style-image-single')) {
+                        $(`#${this.$el.data('uploaderId')}`).addClass('is-populated');
+                    }
+
                     $preview.find('[data-dz-name]').html(response.name)
                     $preview.find('[data-dz-size]').html('<strong>' + filesize.size + '</strong> ' + filesize.units)
                 }

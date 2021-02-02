@@ -31,3 +31,7 @@ div[data-control=unsplash-picker] button.add-btn {
 div[data-control=unsplash-picker] .field-fileupload:empty + div {
     display: none;
 }
+
+.style-image-single.is-populated ~ [data-control=unsplash-picker] {
+    display: none;
+}
