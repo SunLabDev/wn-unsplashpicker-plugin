@@ -1,5 +1,7 @@
 <?php if (!$this->previewMode): ?>
-<div data-control="unsplash-picker"
+<div id="<?= $this->getId() ?>"
+     class="<?= $this->previewMode ? 'is-preview' : '' ?>"
+     data-control="unsplash-picker"
      data-uploader-id="<?= $this->getId() ?>"
      data-api-key="<?= $apiKey ?>"
      data-api-secret="<?= $apiSecret ?>"

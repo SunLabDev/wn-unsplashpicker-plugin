@@ -35,6 +35,8 @@ class UnsplashPicker extends FileUpload
 
     public function loadAssets()
     {
+        $this->addCss('/modules/backend/formwidgets/fileupload/assets/css/fileupload.css', 'core');
+        $this->addJs('/modules/backend/formwidgets/fileupload/assets/js/fileupload.js', 'core');
         $this->addCss('css/unsplashpicker.css', 'SunLab.Unsplash');
         $this->addJs('js/unsplashpicker.js', 'SunLab.Unsplash');
     }

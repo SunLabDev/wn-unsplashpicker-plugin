@@ -6,12 +6,11 @@
 
     var UnsplashPicker = function (element, options) {
         this.$el = $(element)
-        this.page = 1
         this.options = options || {}
+        this.page = 1
         this.searchInput = $(element).find('.unsplash-search').first()
         this.resultsDiv = $(element).find('.field-fileupload').first()
         this.unsplashPreviewTemplate = $(this.options.unsplashPreviewTemplate)
-        this.DropZone = $(`#${this.$el.data('uploaderId')}`)[0].dropzone
 
         $.oc.foundation.controlUtils.markDisposable(element)
         Base.call(this)
@@ -22,9 +21,18 @@
     UnsplashPicker.prototype.constructor = UnsplashPicker
 
     UnsplashPicker.prototype.init = function () {
+        if (this.options.isPreview === null) {
+            this.options.isPreview = this.$el.hasClass('is-preview')
+        }
+        this.$el.one('dispose-control', this.proxy(this.dispose))
+
+        // Stop here for preview mode
+        if (this.options.isPreview) {
+            return
+        }
+
         this.$el.on('click', '.search-btn', this.proxy(this.search))
         this.$el.on('click', '.load-more', this.proxy(this.loadMore))
-        this.$el.one('dispose-control', this.proxy(this.dispose))
     }
 
     UnsplashPicker.prototype.dispose = function () {
@@ -34,6 +42,11 @@
         this.$el.removeData('oc.unsplashPicker')
 
         this.$el = null
+        this.page = null
+        this.searchInput = null
+        this.resultsDiv = null
+        this.unsplashPreviewTemplate = null
+        this.DropZone = null
 
         // In some cases options could contain callbacks,
         // so it's better to clean them up too.
@@ -105,10 +118,14 @@
                 size: 'unknown',
         }
 
+        this.DropZone = $(`#${this.$el.data('uploaderId')}`)[0].dropzone
+
         this.DropZone.options.addedfile.call(this.DropZone, file)
-        setTimeout(() =>
-            file.previewElement = $(`#${this.$el.data('uploaderId')}`).find('.upload-object.dz-preview.dz-image-preview').last()
-        , 50)
+        setTimeout(
+            () =>
+            file.previewElement = $(`#${this.$el.data('uploaderId')}`).find('.upload-object.dz-preview.dz-image-preview').last(),
+            50
+        )
         this.DropZone.options.thumbnail.call(this.DropZone, file, currentTarget.data('imageThumb'))
 
         this.saveOnServer({
@@ -141,7 +158,7 @@
                     $('.upload-remove-button', $preview).data('request-data', {file_id: response.id})
                     $('.image img', $preview).attr('src', response.thumb)
 
-					
+
                     if ($(`#${this.$el.data('uploaderId')}`).hasClass('style-image-single')) {
                         $(`#${this.$el.data('uploaderId')}`).addClass('is-populated');
                     }
