@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Response;
 use October\Rain\Exception\ApplicationException;
 use October\Rain\Exception\ValidationException;
-use October\Rain\Support\Facades\Validator;
+use Illuminate\Support\Facades\Validator;
 use SunLab\UnsplashPicker\Models\Settings;
 
 class UnsplashPicker extends FileUpload
