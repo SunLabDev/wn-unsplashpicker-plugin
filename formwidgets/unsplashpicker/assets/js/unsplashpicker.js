@@ -31,12 +31,12 @@
             return
         }
 
-        this.$el.on('click', '.search-btn', this.proxy(this.search))
+        this.$el.on('click', '.search-btn', this.proxy(this.newTermSearch))
         this.$el.on('click', '.load-more', this.proxy(this.loadMore))
     }
 
     UnsplashPicker.prototype.dispose = function () {
-        this.$el.off('click', '.search-btn', this.proxy(this.search))
+        this.$el.off('click', '.search-btn', this.proxy(this.newTermSearch))
         this.$el.off('click', '.load-more', this.proxy(this.loadMore))
         this.$el.off('dispose-control', this.proxy(this.dispose))
         this.$el.removeData('oc.unsplashPicker')
@@ -57,6 +57,11 @@
 
     UnsplashPicker.DEFAULTS = {}
 
+    UnsplashPicker.prototype.newTermSearch = function () {
+        this.page = 1
+        this.search()
+    }
+    
     UnsplashPicker.prototype.loadMore = function () {
         this.page++
         this.search()
