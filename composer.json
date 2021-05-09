@@ -1,0 +1,26 @@
+{
+    "name": "sunlab/wn-unsplashpicker-plugin",
+    "type": "winter-plugin",
+    "description": "An Unsplash Image Picker form widget",
+    "homepage": "https://github.com/sunlabdev/wn-unsplashpicker-plugin",
+    "keywords": ["winter cms", "winter", "plugin", "unsplash", "image"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Romain 'Maz' B",
+            "email": "romainmazb@gmail.com",
+            "role": "Original Author"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/sunlabdev/wn-unsplashpicker-plugin/issues",
+        "source": "https://github.com/sunlabdev/wn-unsplashpicker-plugin"
+    },
+    "require": {
+        "php": ">=7.0",
+        "composer/installers": "~1.0"
+    },
+    "extra": {
+        "installer-name": "unsplashpicker"
+    }
+}
